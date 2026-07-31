@@ -1,107 +1,47 @@
-:root {
-  --primary-color: #0077cc;
-  --secondary-color: #005fa3;
-  --background-color: #f4f4f4;
-  --text-color: #333;
-  --card-color: #ffffff;
-}
-
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
-  background: var(--background-color);
-  color: var(--text-color);
-}
-
-header {
-  background: var(--primary-color);
-  color: white;
-  padding: 20px;
-  text-align: center;
-}
-
-nav {
+  background: #f4f4f4;
   display: flex;
   justify-content: center;
-  gap: 15px;
-  flex-wrap: wrap;
+  margin-top: 50px;
 }
 
-nav a {
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-nav a:hover {
-  color: yellow;
-}
-main {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px;
-  padding: 20px;
-}
-
-section {
-  background: var(--card-color);
+.container {
+  background: white;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  width: 350px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
-footer {
-  background: var(--primary-color);
-  color: white;
+h1 {
   text-align: center;
-  padding: 15px;
-  margin-top: 20px;
-}
-/* Responsive Design */
-
-@media (max-width: 768px) {
-  header {
-    padding: 15px;
-  }
-
-  nav {
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-
-  section {
-    padding: 15px;
-  }
 }
 
-@media (min-width: 769px) {
-  main {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-/* Dark Mode */
-body.dark-mode {
-  background-color: #121212;
-  color: white;
-}
-
-body.dark-mode header,
-body.dark-mode footer {
-  background-color: #222222;
-}
-
-body.dark-mode section {
-  background-color: #1e1e1e;
-  color: white;
-}
-
-body.dark-mode nav a {
-  color: white;
+input {
+  width: 65%;
+  padding: 10px;
 }
 
 button {
-  padding: 8px 15px;
-  margin-bottom: 10px;
+  padding: 10px;
+  margin: 5px;
   cursor: pointer;
+}
+
+.filters {
+  text-align: center;
+  margin-top: 10px;
+}
+
+li {
+  list-style: none;
+  background: #eee;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 5px;
+}
+.completed {
+  text-decoration: line-through;
+  color: gray;
 }
