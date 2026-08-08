@@ -1,75 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Weather Dashboard</title>
+    <title>ShopEase - Product Store</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <div class="container">
+    <!-- Header -->
+    <header class="header">
 
-        <h1>🌤️ Weather Dashboard</h1>
-        <p>Check real-time weather by city</p>
+        <div class="logo">
+            🛍️ ShopEase
+        </div>
 
-        <div class="search-box">
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#products">Products</a>
+            <a href="#about">About</a>
+        </nav>
+
+        <button id="cartBtn" class="cart-btn">
+            🛒 Cart (<span id="cartCount">0</span>)
+        </button>
+
+    </header>
+
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+
+        <div>
+            <h1>Welcome to ShopEase</h1>
+
+            <p>
+                Discover quality products at affordable prices.
+            </p>
+
+            <button onclick="showProducts()">
+                Shop Now
+            </button>
+        </div>
+
+    </section>
+
+
+    <!-- Products Section -->
+    <section id="products" class="products-section">
+
+        <h2>Our Products</h2>
+
+        <div class="controls">
+
             <input
                 type="text"
-                id="cityInput"
-                placeholder="Enter city name"
+                id="searchInput"
+                placeholder="Search products..."
             >
 
-            <button id="searchBtn">Search</button>
-        </div>
+            <select id="categoryFilter">
 
-        <p id="message"></p>
+                <option value="all">
+                    All Categories
+                </option>
 
-        <div id="weatherCard" class="weather-card hidden">
+                <option value="electronics">
+                    Electronics
+                </option>
 
-            <h2 id="cityName">City</h2>
-            <p id="countryName">Country</p>
+                <option value="fashion">
+                    Fashion
+                </option>
 
-            <div class="weather-info">
+                <option value="accessories">
+                    Accessories
+                </option>
 
-                <div class="weather-item">
-                    <span>🌡️</span>
-                    <h3>Temperature</h3>
-                    <p id="temperature">-- °C</p>
-                </div>
-
-                <div class="weather-item">
-                    <span>💧</span>
-                    <h3>Humidity</h3>
-                    <p id="humidity">-- %</p>
-                </div>
-
-                <div class="weather-item">
-                    <span>💨</span>
-                    <h3>Wind Speed</h3>
-                    <p id="windSpeed">-- km/h</p>
-                </div>
-
-            </div>
-
-            <div class="details">
-                <p>Latitude: <span id="latitude">--</span></p>
-                <p>Longitude: <span id="longitude">--</span></p>
-                <p>Updated: <span id="updatedTime">--</span></p>
-            </div>
+            </select>
 
         </div>
 
-        <footer>
-            Weather data powered by Open-Meteo
-        </footer>
+
+        <div id="productContainer" class="product-container">
+            <!-- Products will appear here -->
+        </div>
+
+    </section>
+
+
+    <!-- About Section -->
+    <section id="about" class="about">
+
+        <h2>About ShopEase</h2>
+
+        <p>
+            ShopEase is a simple modern e-commerce product
+            catalog designed to provide a smooth shopping
+            experience.
+        </p>
+
+    </section>
+
+
+    <!-- Cart -->
+    <div id="cartPanel" class="cart-panel">
+
+        <div class="cart-header">
+
+            <h2>Your Cart</h2>
+
+            <button id="closeCart">
+                ✕
+            </button>
+
+        </div>
+
+        <div id="cartItems">
+            <p>Your cart is empty.</p>
+        </div>
+
+        <div class="cart-total">
+
+            <h3>
+                Total:
+                ₹<span id="cartTotal">0</span>
+            </h3>
+
+            <button id="checkoutBtn">
+                Checkout
+            </button>
+
+        </div>
 
     </div>
 
+
+    <!-- Footer -->
+    <footer>
+
+        <p>
+            © 2026 ShopEase. All rights reserved.
+        </p>
+
+    </footer>
+
+
+    <script src="products.js"></script>
     <script src="script.js"></script>
 
 </body>
+
 </html>

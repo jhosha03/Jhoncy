@@ -1,122 +1,238 @@
-const cityInput = document.getElementById("cityInput");
-const searchBtn = document.getElementById("searchBtn");
+const productContainer = document.getElementById("productContainer");
+const searchInput = document.getElementById("searchInput");
+const categoryFilter = document.getElementById("categoryFilter");
 
-const message = document.getElementById("message");
-const weatherCard = document.getElementById("weatherCard");
+const cartBtn = document.getElementById("cartBtn");
+const cartPanel = document.getElementById("cartPanel");
+const closeCart = document.getElementById("closeCart");
 
-const cityName = document.getElementById("cityName");
-const countryName = document.getElementById("countryName");
+const cartItems = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
+const checkoutBtn = document.getElementById("checkoutBtn");
 
-const temperature = document.getElementById("temperature");
-const humidity = document.getElementById("humidity");
-const windSpeed = document.getElementById("windSpeed");
-
-const latitude = document.getElementById("latitude");
-const longitude = document.getElementById("longitude");
-const updatedTime = document.getElementById("updatedTime");
+let cart = [];
 
 
-searchBtn.addEventListener("click", getWeather);
+/* Display Products */
+function displayProducts(list) {
 
+    productContainer.innerHTML = "";
 
-cityInput.addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        getWeather();
-    }
-});
+    if (list.length === 0) {
 
+        productContainer.innerHTML =
+            "<p class='no-products'>No products found.</p>";
 
-async function getWeather() {
-
-    const city = cityInput.value.trim();
-
-    if (city === "") {
-        showMessage("Please enter a city name.");
-        weatherCard.classList.add("hidden");
         return;
     }
 
-    try {
+    list.forEach(function(product) {
 
-        showMessage("Loading weather data...");
+        const card = document.createElement("div");
 
-        // Find the city
-        const locationResponse = await fetch(
-            `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`
-        );
+        card.className = "product-card";
 
-        if (!locationResponse.ok) {
-            throw new Error("Unable to find the location.");
-        }
+        card.innerHTML = `
+            <img
+                src="${product.image}"
+                alt="${product.name}"
+                loading="lazy"
+            >
 
-        const locationData = await locationResponse.json();
+            <div class="product-info">
 
-        if (!locationData.results || locationData.results.length === 0) {
-            throw new Error("City not found. Please enter a valid city name.");
-        }
+                <h3>${product.name}</h3>
 
-        // Get location information
-        const location = locationData.results[0];
+                <p class="category">
+                    ${product.category}
+                </p>
 
-        const lat = location.latitude;
-        const lon = location.longitude;
+                <p class="price">
+                    ₹${product.price}
+                </p>
 
+                <button
+                    onclick="addToCart(${product.id})"
+                >
+                    Add to Cart
+                </button>
 
-        // Get weather information
-        const weatherResponse = await fetch(
-            `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,wind_speed_10m&timezone=auto`
-        );
+            </div>
+        `;
 
-        if (!weatherResponse.ok) {
-            throw new Error("Weather service is currently unavailable.");
-        }
-
-        const weatherData = await weatherResponse.json();
-
-        // Get current weather
-        const currentWeather = weatherData.current;
+        productContainer.appendChild(card);
+    });
+}
 
 
-        // Display weather data
-        cityName.textContent = location.name;
+/* Search and Filter */
+function filterProducts() {
 
-        countryName.textContent =
-            `${location.admin1 || ""}, ${location.country || ""}`;
+    const searchText =
+        searchInput.value.toLowerCase().trim();
 
-        temperature.textContent =
-            `${currentWeather.temperature_2m} °C`;
+    const category =
+        categoryFilter.value;
 
-        humidity.textContent =
-            `${currentWeather.relative_humidity_2m} %`;
+    const filteredProducts =
+        products.filter(function(product) {
 
-        windSpeed.textContent =
-            `${currentWeather.wind_speed_10m} km/h`;
+            const matchesSearch =
+                product.name
+                    .toLowerCase()
+                    .includes(searchText);
 
-        latitude.textContent =
-            lat.toFixed(4);
+            const matchesCategory =
+                category === "all" ||
+                product.category === category;
 
-        longitude.textContent =
-            lon.toFixed(4);
+            return matchesSearch && matchesCategory;
+        });
 
-        updatedTime.textContent =
-            currentWeather.time;
+    displayProducts(filteredProducts);
+}
 
 
-        weatherCard.classList.remove("hidden");
+/* Add Product to Cart */
+function addToCart(productId) {
 
-        showMessage("Weather data loaded successfully.");
+    const product =
+        products.find(function(item) {
+            return item.id === productId;
+        });
 
-    } catch (error) {
-
-        weatherCard.classList.add("hidden");
-
-        showMessage(error.message);
-
-        console.error("Weather Error:", error);
+    if (!product) {
+        return;
     }
+
+    cart.push(product);
+
+    updateCart();
+
+    alert(product.name + " added to cart!");
 }
 
 
-function showMessage(text) {
-    message.textContent = text;
+/* Update Cart */
+function updateCart() {
+
+    cartCount.textContent = cart.length;
+
+    cartItems.innerHTML = "";
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML =
+            "<p>Your cart is empty.</p>";
+
+        cartTotal.textContent = "0";
+
+        return;
+    }
+
+
+    let total = 0;
+
+    cart.forEach(function(product, index) {
+
+        total += product.price;
+
+        const item = document.createElement("div");
+
+        item.className = "cart-item";
+
+        item.innerHTML = `
+            <div>
+                <strong>${product.name}</strong>
+                <p>₹${product.price}</p>
+            </div>
+
+            <button
+                onclick="removeFromCart(${index})"
+            >
+                Remove
+            </button>
+        `;
+
+        cartItems.appendChild(item);
+    });
+
+    cartTotal.textContent = total;
 }
+
+
+/* Remove Product */
+function removeFromCart(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+}
+
+
+/* Open Cart */
+cartBtn.addEventListener("click", function() {
+
+    cartPanel.classList.add("show");
+
+});
+
+
+/* Close Cart */
+closeCart.addEventListener("click", function() {
+
+    cartPanel.classList.remove("show");
+
+});
+
+
+/* Search */
+searchInput.addEventListener(
+    "input",
+    filterProducts
+);
+
+
+/* Category Filter */
+categoryFilter.addEventListener(
+    "change",
+    filterProducts
+);
+
+
+/* Checkout */
+checkoutBtn.addEventListener("click", function() {
+
+    if (cart.length === 0) {
+
+        alert("Your cart is empty.");
+
+        return;
+    }
+
+    alert(
+        "Thank you for shopping with ShopEase!"
+    );
+
+    cart = [];
+
+    updateCart();
+
+    cartPanel.classList.remove("show");
+});
+
+
+/* Shop Now Button */
+function showProducts() {
+
+    document
+        .getElementById("products")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+}
+
+
+/* Initial Display */
+displayProducts(products);
