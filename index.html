@@ -1,29 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>To-Do List</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Weather Dashboard</title>
+
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <div class="container">
-    <h1>To-Do List</h1>
+    <div class="container">
 
-    <input type="text" id="taskInput" placeholder="Enter a task">
-    <button id="addBtn">Add Task</button>
+        <h1>🌤️ Weather Dashboard</h1>
+        <p>Check real-time weather by city</p>
 
-    <div class="filters">
-      <button id="all">All</button>
-      <button id="active">Active</button>
-      <button id="completed">Completed</button>
+        <div class="search-box">
+            <input
+                type="text"
+                id="cityInput"
+                placeholder="Enter city name"
+            >
+
+            <button id="searchBtn">Search</button>
+        </div>
+
+        <p id="message"></p>
+
+        <div id="weatherCard" class="weather-card hidden">
+
+            <h2 id="cityName">City</h2>
+            <p id="countryName">Country</p>
+
+            <div class="weather-info">
+
+                <div class="weather-item">
+                    <span>🌡️</span>
+                    <h3>Temperature</h3>
+                    <p id="temperature">-- °C</p>
+                </div>
+
+                <div class="weather-item">
+                    <span>💧</span>
+                    <h3>Humidity</h3>
+                    <p id="humidity">-- %</p>
+                </div>
+
+                <div class="weather-item">
+                    <span>💨</span>
+                    <h3>Wind Speed</h3>
+                    <p id="windSpeed">-- km/h</p>
+                </div>
+
+            </div>
+
+            <div class="details">
+                <p>Latitude: <span id="latitude">--</span></p>
+                <p>Longitude: <span id="longitude">--</span></p>
+                <p>Updated: <span id="updatedTime">--</span></p>
+            </div>
+
+        </div>
+
+        <footer>
+            Weather data powered by Open-Meteo
+        </footer>
+
     </div>
 
-    <ul id="taskList"></ul>
-  </div>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
