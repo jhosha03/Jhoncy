@@ -1,238 +1,112 @@
-const productContainer = document.getElementById("productContainer");
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
+const images = [
+    "https://images.unsplash.com/photo-1500534623283-312aade485b7",
+    "https://images.unsplash.com/photo-1501854140801-50d01698950b",
+    "https://images.unsplash.com/photo-1546182990-dffeafbe841d",
+    "https://images.unsplash.com/photo-1557050543-4d5f4e07ef46",
+    "https://images.unsplash.com/photo-1507525428034-b723cf961d3e",
+    "https://images.unsplash.com/photo-1470770841072-f978cf4d019e"
+];
 
-const cartBtn = document.getElementById("cartBtn");
-const cartPanel = document.getElementById("cartPanel");
-const closeCart = document.getElementById("closeCart");
+let currentImage = 0;
 
-const cartItems = document.getElementById("cartItems");
-const cartCount = document.getElementById("cartCount");
-const cartTotal = document.getElementById("cartTotal");
-const checkoutBtn = document.getElementById("checkoutBtn");
-
-let cart = [];
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
 
 
-/* Display Products */
-function displayProducts(list) {
+// Open Lightbox
+function openLightbox(index) {
 
-    productContainer.innerHTML = "";
+    currentImage = index;
 
-    if (list.length === 0) {
+    lightboxImage.src = images[currentImage];
 
-        productContainer.innerHTML =
-            "<p class='no-products'>No products found.</p>";
+    lightbox.style.display = "flex";
+}
 
-        return;
+
+// Close Lightbox
+function closeLightbox() {
+
+    lightbox.style.display = "none";
+}
+
+
+// Next Image
+function nextImage() {
+
+    currentImage++;
+
+    if (currentImage >= images.length) {
+        currentImage = 0;
     }
 
-    list.forEach(function(product) {
+    lightboxImage.src = images[currentImage];
+}
 
-        const card = document.createElement("div");
 
-        card.className = "product-card";
+// Previous Image
+function previousImage() {
 
-        card.innerHTML = `
-            <img
-                src="${product.image}"
-                alt="${product.name}"
-                loading="lazy"
-            >
+    currentImage--;
 
-            <div class="product-info">
+    if (currentImage < 0) {
+        currentImage = images.length - 1;
+    }
 
-                <h3>${product.name}</h3>
+    lightboxImage.src = images[currentImage];
+}
 
-                <p class="category">
-                    ${product.category}
-                </p>
 
-                <p class="price">
-                    ₹${product.price}
-                </p>
+// Category Filter
+function filterImages(category) {
 
-                <button
-                    onclick="addToCart(${product.id})"
-                >
-                    Add to Cart
-                </button>
+    const items = document.querySelectorAll(".gallery-item");
 
-            </div>
-        `;
+    items.forEach(item => {
 
-        productContainer.appendChild(card);
+        if (category === "all") {
+
+            item.style.display = "block";
+
+        } else if (item.classList.contains(category)) {
+
+            item.style.display = "block";
+
+        } else {
+
+            item.style.display = "none";
+        }
+
     });
 }
 
 
-/* Search and Filter */
-function filterProducts() {
+// Close lightbox when clicking outside image
+lightbox.addEventListener("click", function(event) {
 
-    const searchText =
-        searchInput.value.toLowerCase().trim();
-
-    const category =
-        categoryFilter.value;
-
-    const filteredProducts =
-        products.filter(function(product) {
-
-            const matchesSearch =
-                product.name
-                    .toLowerCase()
-                    .includes(searchText);
-
-            const matchesCategory =
-                category === "all" ||
-                product.category === category;
-
-            return matchesSearch && matchesCategory;
-        });
-
-    displayProducts(filteredProducts);
-}
-
-
-/* Add Product to Cart */
-function addToCart(productId) {
-
-    const product =
-        products.find(function(item) {
-            return item.id === productId;
-        });
-
-    if (!product) {
-        return;
+    if (event.target === lightbox) {
+        closeLightbox();
     }
-
-    cart.push(product);
-
-    updateCart();
-
-    alert(product.name + " added to cart!");
-}
-
-
-/* Update Cart */
-function updateCart() {
-
-    cartCount.textContent = cart.length;
-
-    cartItems.innerHTML = "";
-
-    if (cart.length === 0) {
-
-        cartItems.innerHTML =
-            "<p>Your cart is empty.</p>";
-
-        cartTotal.textContent = "0";
-
-        return;
-    }
-
-
-    let total = 0;
-
-    cart.forEach(function(product, index) {
-
-        total += product.price;
-
-        const item = document.createElement("div");
-
-        item.className = "cart-item";
-
-        item.innerHTML = `
-            <div>
-                <strong>${product.name}</strong>
-                <p>₹${product.price}</p>
-            </div>
-
-            <button
-                onclick="removeFromCart(${index})"
-            >
-                Remove
-            </button>
-        `;
-
-        cartItems.appendChild(item);
-    });
-
-    cartTotal.textContent = total;
-}
-
-
-/* Remove Product */
-function removeFromCart(index) {
-
-    cart.splice(index, 1);
-
-    updateCart();
-}
-
-
-/* Open Cart */
-cartBtn.addEventListener("click", function() {
-
-    cartPanel.classList.add("show");
 
 });
 
 
-/* Close Cart */
-closeCart.addEventListener("click", function() {
+// Keyboard navigation
+document.addEventListener("keydown", function(event) {
 
-    cartPanel.classList.remove("show");
+    if (lightbox.style.display === "flex") {
 
-});
+        if (event.key === "ArrowRight") {
+            nextImage();
+        }
 
+        if (event.key === "ArrowLeft") {
+            previousImage();
+        }
 
-/* Search */
-searchInput.addEventListener(
-    "input",
-    filterProducts
-);
-
-
-/* Category Filter */
-categoryFilter.addEventListener(
-    "change",
-    filterProducts
-);
-
-
-/* Checkout */
-checkoutBtn.addEventListener("click", function() {
-
-    if (cart.length === 0) {
-
-        alert("Your cart is empty.");
-
-        return;
+        if (event.key === "Escape") {
+            closeLightbox();
+        }
     }
 
-    alert(
-        "Thank you for shopping with ShopEase!"
-    );
-
-    cart = [];
-
-    updateCart();
-
-    cartPanel.classList.remove("show");
 });
-
-
-/* Shop Now Button */
-function showProducts() {
-
-    document
-        .getElementById("products")
-        .scrollIntoView({
-            behavior: "smooth"
-        });
-}
-
-
-/* Initial Display */
-displayProducts(products);

@@ -1,158 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>ShopEase - Product Store</title>
+    <title>My Image Gallery</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- Header -->
-    <header class="header">
-
-        <div class="logo">
-            🛍️ ShopEase
-        </div>
-
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#products">Products</a>
-            <a href="#about">About</a>
-        </nav>
-
-        <button id="cartBtn" class="cart-btn">
-            🛒 Cart (<span id="cartCount">0</span>)
-        </button>
-
+    <header>
+        <h1>📸 My Image Gallery</h1>
+        <p>Explore beautiful moments</p>
     </header>
 
+    <!-- Category Buttons -->
+    <div class="filters">
+        <button onclick="filterImages('all')">All</button>
+        <button onclick="filterImages('nature')">Nature</button>
+        <button onclick="filterImages('animals')">Animals</button>
+        <button onclick="filterImages('travel')">Travel</button>
+    </div>
 
-    <!-- Home Section -->
-    <section id="home" class="hero">
+    <!-- Gallery -->
+    <main class="gallery">
 
-        <div>
-            <h1>Welcome to ShopEase</h1>
-
-            <p>
-                Discover quality products at affordable prices.
-            </p>
-
-            <button onclick="showProducts()">
-                Shop Now
-            </button>
+        <div class="gallery-item nature"
+             onclick="openLightbox(0)">
+            <img src="https://images.unsplash.com/photo-1500534623283-312aade485b7"
+                 alt="Nature">
         </div>
 
-    </section>
-
-
-    <!-- Products Section -->
-    <section id="products" class="products-section">
-
-        <h2>Our Products</h2>
-
-        <div class="controls">
-
-            <input
-                type="text"
-                id="searchInput"
-                placeholder="Search products..."
-            >
-
-            <select id="categoryFilter">
-
-                <option value="all">
-                    All Categories
-                </option>
-
-                <option value="electronics">
-                    Electronics
-                </option>
-
-                <option value="fashion">
-                    Fashion
-                </option>
-
-                <option value="accessories">
-                    Accessories
-                </option>
-
-            </select>
-
+        <div class="gallery-item nature"
+             onclick="openLightbox(1)">
+            <img src="https://images.unsplash.com/photo-1501854140801-50d01698950b"
+                 alt="Mountain">
         </div>
 
-
-        <div id="productContainer" class="product-container">
-            <!-- Products will appear here -->
+        <div class="gallery-item animals"
+             onclick="openLightbox(2)">
+            <img src="https://images.unsplash.com/photo-1546182990-dffeafbe841d"
+                 alt="Lion">
         </div>
 
-    </section>
-
-
-    <!-- About Section -->
-    <section id="about" class="about">
-
-        <h2>About ShopEase</h2>
-
-        <p>
-            ShopEase is a simple modern e-commerce product
-            catalog designed to provide a smooth shopping
-            experience.
-        </p>
-
-    </section>
-
-
-    <!-- Cart -->
-    <div id="cartPanel" class="cart-panel">
-
-        <div class="cart-header">
-
-            <h2>Your Cart</h2>
-
-            <button id="closeCart">
-                ✕
-            </button>
-
+        <div class="gallery-item animals"
+             onclick="openLightbox(3)">
+            <img src="https://images.unsplash.com/photo-1557050543-4d5f4e07ef46"
+                 alt="Elephant">
         </div>
 
-        <div id="cartItems">
-            <p>Your cart is empty.</p>
+        <div class="gallery-item travel"
+             onclick="openLightbox(4)">
+            <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e"
+                 alt="Beach">
         </div>
 
-        <div class="cart-total">
-
-            <h3>
-                Total:
-                ₹<span id="cartTotal">0</span>
-            </h3>
-
-            <button id="checkoutBtn">
-                Checkout
-            </button>
-
+        <div class="gallery-item travel"
+             onclick="openLightbox(5)">
+            <img src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e"
+                 alt="Travel">
         </div>
+
+    </main>
+
+    <!-- Lightbox -->
+    <div id="lightbox" class="lightbox">
+
+        <button class="close" onclick="closeLightbox()">×</button>
+
+        <button class="prev" onclick="previousImage()">❮</button>
+
+        <img id="lightboxImage" src="" alt="Large Image">
+
+        <button class="next" onclick="nextImage()">❯</button>
 
     </div>
 
-
-    <!-- Footer -->
     <footer>
-
-        <p>
-            © 2026 ShopEase. All rights reserved.
-        </p>
-
+        <p>© 2026 My Image Gallery</p>
     </footer>
 
-
-    <script src="products.js"></script>
     <script src="script.js"></script>
 
 </body>
-
 </html>
